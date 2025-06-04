@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HyperRideRental.com</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            background-color: #050510;
+            color: white;
+        }
+        
+        /* Background futuristik dengan grid dan neon effect */
+        .futuristic-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: #050510;
+            overflow: hidden;
+        }
+        
+        /* Grid lines */
+        .grid-lines {
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            top: -50%;
+            left: -50%;
+            background-image: 
+                linear-gradient(rgba(0, 255, 255, 0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 255, 255, 0.1) 1px, transparent 1px);
+            background-size: 50px 50px;
+            transform: perspective(500px) rotateX(60deg);
+            animation: grid-move 15s linear infinite;
+        }
+        
+        @keyframes grid-move {
+            0% {
+                transform: perspective(500px) rotateX(60deg) translateY(0);
+            }
+            100% {
+                transform: perspective(500px) rotateX(60deg) translateY(50px);
+            }
+        }
+        
+        /* Neon circles */
+        .neon-circle {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(20px);
+            opacity: 0.15;
+        }
+        
+        /* Digital circuit lines */
+        .circuit-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+        
+        .circuit-line {
+            position: absolute;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(0, 195, 255, 0.5), rgba(0, 255, 234, 0.8), rgba(0, 195, 255, 0.5), transparent);
+            box-shadow: 0 0 8px rgba(0, 195, 255, 0.5);
+            opacity: 0;
+            animation: circuit-animate 10s linear infinite;
+        }
+        
+        @keyframes circuit-animate {
+            0% {
+                opacity: 0;
+                transform: translateX(-100%);
+            }
+            20% {
+                opacity: 1;
+            }
+            80% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+                transform: translateX(100%);
+            }
+        }
+        
+        /* Digital particles */
+        .digital-particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background-color: rgba(0, 240, 255, 0.7);
+            box-shadow: 0 0 4px rgba(0, 240, 255, 0.7);
+            border-radius: 50%;
+            opacity: 0;
+            animation: particle-float 8s linear infinite;
+        }
+        
+        @keyframes particle-float {
+            0% {
+                opacity: 0;
+            }
+            25% {
+                opacity: 1;
+            }
+            75% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-50vh) scale(0.5);
+            }
+        }
+        
+        /* HUD elements */
+        .hud-element {
+            position: absolute;
+            border: 1px solid rgba(0, 195, 255, 0.3);
+            border-radius: 4px;
+            padding: 10px;
+            font-size: 10px;
+            color: rgba(0, 195, 255, 0.7);
+            background-color: rgba(0, 35, 66, 0.2);
+            box-shadow: 0 0 15px rgba(0, 195, 255, 0.2);
+            transform: scale(0);
+            animation: hud-appear 0.5s forwards;
+            opacity: 0.6;
+        }
+        
+        @keyframes hud-appear {
+            0% {
+                transform: scale(0);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+        
+        /* Glass morphism style */
+        .glass-morphism {
+            background: rgba(8, 12, 33, 0.6);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(0, 195, 255, 0.2);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        }
+        
+        .hover-scale {
+            transition: all 0.3s ease;
+        }
+        
+        .hover-scale:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 25px rgba(0, 195, 255, 0.4);
+            border: 1px solid rgba(0, 195, 255, 0.4);
+        }
+        
+        .car-card {
+            perspective: 1000px;
+            background: linear-gradient(135deg, rgba(8, 12, 33, 0.8), rgba(13, 23, 64, 0.8));
+            border: 1px solid rgba(0, 195, 255, 0.2);
+            box-shadow: 0 0 15px rgba(0, 30, 60, 0.5);
+        }
+        
+        .car-card-inner {
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+        
+        .car-card:hover .car-card-inner {
+            transform: rotateY(180deg);
+        }
+        
+        /* Neon text effects */
+        .neon-text {
+            color: #fff;
+            text-shadow: 0 0 5px #00b3ff, 0 0 10px #00b3ff, 0 0 15px #00b3ff;
+            animation: neon-pulse 2s infinite alternate;
+        }
+        
+        @keyframes neon-pulse {
+            from {
+                text-shadow: 0 0 5px #00b3ff, 0 0 10px #00b3ff, 0 0 15px #00b3ff;
+            }
+            to {
+                text-shadow: 0 0 5px #00b3ff, 0 0 10px #00b3ff, 0 0 15px #00b3ff, 0 0 20px #00b3ff;
+            }
+        }
+        
+        /* Glow buttons */
+        .glow-button {
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 0 10px rgba(0, 195, 255, 0.5);
+            transition: all 0.3s ease;
+        }
+        
+        .glow-button:hover {
+            box-shadow: 0 0 20px rgba(0, 195, 255, 0.8);
+        }
+        
+        .glow-button:after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(transparent, rgba(0, 195, 255, 0.1), transparent);
+            transform: rotate(45deg);
+            animation: button-shine 3s ease-in-out infinite;
+        }
+        
+        @keyframes button-shine {
+            0% {
+                left: -200%;
+            }
+            100% {
+                left: 200%;
+            }
+        }
+        
+        /* Main content area */
+        .content-area {
+            position: relative;
+            z-index: 100;
+        }
+        
+        /* Consistent image sizing */
+        .car-image {
+            width: 100%;
+            height: 240px;
+            object-fit: cover;
+            object-position: center;
+        }
+        
+        .company-logo {
+            width: 240px;
+            height: 240px;
+            object-fit: cover;
+            object-position: center;
+        }
+        
+        .modal-image {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            object-position: center;
+        }
+        
+        /* Price tag style */
+        .price-tag {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(0, 195, 255, 0.3);
+            padding: 5px 10px;
+            border-radius: 5px;
+            border: 1px solid rgba(0, 195, 255, 0.5);
+            font-weight: bold;
+            color: white;
+            text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+        }
+        
+        /* Price table styles */
+        .price-table {
+            border-collapse: separate;
+            border-spacing: 0;
+            width: 100%;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 0 20px rgba(0, 195, 255, 0.3);
+        }
+        
+        .price-table th, .price-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid rgba(0, 195, 255, 0.2);
+        }
+        
+        .price-table th {
+            background-color: rgba(0, 99, 155, 0.4);
+            color: #00e6ff;
+            text-align: left;
+            font-weight: bold;
+        }
+        
+        .price-table tr:hover {
+            background-color: rgba(0, 195, 255, 0.1);
+        }
+        
+        .price-table tr:last-child td {
+            border-bottom: none;
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+    <!-- Futuristic Background -->
+    <div class="futuristic-background">
+        <div class="grid-lines"></div>
+        <div class="circuit-container" id="circuitContainer"></div>
+        <div id="neonCirclesContainer"></div>
+        <div id="digitalParticlesContainer"></div>
+        <div id="hudElementsContainer"></div>
+    </div>
+
+    <div class="container mx-auto px-4 py-8 content-area">
+        <header class="text-center mb-12 relative">
+            <h1 class="text-5xl font-bold neon-text mb-4">HyperRideRental.com</h1>
+            <p class="text-xl text-blue-200">Menghadirkan Pengalaman Hypercar Premium</p>
+        </header>
+
+        <nav class="flex justify-center space-x-6 mb-12">
+            <button onclick="navigateTo('home')" class="nav-btn px-6 py-2 rounded-lg bg-blue-900 hover:bg-blue-800 transition glow-button">Home</button>
+            <button onclick="navigateTo('galeri')" class="nav-btn px-6 py-2 rounded-lg bg-blue-900 hover:bg-blue-800 transition glow-button">Galeri</button>
+            <button onclick="navigateTo('harga')" class="nav-btn px-6 py-2 rounded-lg bg-blue-900 hover:bg-blue-800 transition glow-button">Harga Sewa</button>
+            <button onclick="navigateTo('profil')" class="nav-btn px-6 py-2 rounded-lg bg-blue-900 hover:bg-blue-800 transition glow-button">Profil</button>
+            <button onclick="navigateTo('kontak')" class="nav-btn px-6 py-2 rounded-lg bg-blue-900 hover:bg-blue-800 transition glow-button">Kontak</button>
+        </nav>
+
+        <main id="content" class="glass-morphism rounded-2xl p-8 shadow-2xl relative">
+            <!-- Dynamic content will be loaded here -->
+        </main>
+    </div>
+
+    <div id="carModal" class="fixed inset-0 bg-black bg-opacity-75 z-50 hidden flex items-center justify-center p-4">
+        <div class="glass-morphism rounded-2xl p-8 max-w-2xl w-full relative">
+            <button onclick="closeModal()" class="absolute top-4 right-4 text-white text-3xl neon-text">&times;</button>
+            <div id="modalContent" class="flex flex-col md:flex-row space-y-6 md:space-y-0 md:space-x-8">
+                <img id="modalImage" class="md:w-1/2 rounded-xl border border-blue-400 modal-image" src="" alt="Car Image">
+                <div id="carDetails" class="md:w-1/2">
+                    <!-- Car details will be dynamically inserted -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const pages = {
+            home: `
+                <div class="grid md:grid-cols-3 gap-8">
+                    <div class="glass-morphism p-6 rounded-xl hover-scale">
+                        <h3 class="text-2xl font-bold text-blue-300 mb-4">Koleksi Terbaik</h3>
+                        <p class="text-blue-100">Hypercar terbaru dan terbaik siap untuk Anda nikmati</p>
+                    </div>
+                    <div class="glass-morphism p-6 rounded-xl hover-scale">
+                        <h3 class="text-2xl font-bold text-blue-300 mb-4">Pelayanan Premium</h3>
+                        <p class="text-blue-100">Layanan 24/7 dengan driver profesional tersedia</p>
+                    </div>
+                    <div class="glass-morphism p-6 rounded-xl hover-scale">
+                        <h3 class="text-2xl font-bold text-blue-300 mb-4">Harga Bersaing</h3>
+                        <p class="text-blue-100">Penawaran spesial untuk pengalaman mewah Anda</p>
+                    </div>
+                </div>
+                <h2 class="text-3xl font-bold text-center my-12 text-blue-300 neon-text">Hypercar Terpopuler</h2>
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div class="car-card rounded-xl overflow-hidden relative" onclick="openModalWithDetails('Aventador.jpg', 'Lamborghini Aventador', {engine: '6.5L V12', hp: '700 HP', acceleration: '2.9 detik', price: 'Rp. 25.000.000 / hari'})">
+                        <div class="car-card-inner">
+                            <img src="Aventador.jpg" class="car-image rounded-xl shadow-xl" alt="Lamborghini Aventador">
+                        </div>
+                        <div class="price-tag">Rp. 25 Juta/hari</div>
+                    </div>
+                    <div class="car-card rounded-xl overflow-hidden relative" onclick="openModalWithDetails('2 (2).jpg', 'Ferrari SF90 Stradale', {engine: '4.0L V8 Hybrid', hp: '986 HP', acceleration: '2.5 detik', price: 'Rp. 30.000.000 / hari'})">
+                        <div class="car-card-inner">
+                            <img src="2 (2).jpg" class="car-image rounded-xl shadow-xl" alt="Ferrari SF90 Stradale">
+                        </div>
+                        <div class="price-tag">Rp. 30 Juta/hari</div>
+                    </div>
+                </div>
+                <div class="text-center mt-8">
+                    <button onclick="navigateTo('harga')" class="px-8 py-3 bg-blue-900 hover:bg-blue-800 rounded-xl transition glow-button text-lg">Lihat Semua Harga Sewa</button>
+                </div>
+            `,
+            galeri: `
+                <h2 class="text-3xl font-bold text-center mb-12 text-blue-300 neon-text">Galeri HyperCar</h2>
+                <div class="grid md:grid-cols-3 gap-8">
+                    ${['15.jpg', '16.jpg', '3 (2).jpg', '17.jpg', '18.jpg', '19.jpg'].map((img, index) => `
+                        <div class="car-card rounded-xl overflow-hidden cursor-pointer relative" onclick="openModalWithDetails('${img}', '${['Lamborghini Aventador', 'Ferrari SF90 Stradale', 'Bugatti Chiron', 'McLaren Senna', 'Koenigsegg Jesko', 'Pagani Huayra'][index]}', {
+                            engine: '${['6.5L V12', '4.0L V8 Hybrid', '8.0L W16 Quad-Turbo', '4.0L V8 Twin-Turbo', '5.0L V8 Twin-Turbo', '6.0L V12 Bi-Turbo'][index]}',
+                            hp: '${['700 HP', '986 HP', '1500 HP', '789 HP', '1600 HP', '730 HP'][index]}',
+                            acceleration: '${['2.9 detik', '2.5 detik', '2.4 detik', '2.8 detik', '2.5 detik', '3.0 detik'][index]}',
+                            price: '${['Rp. 25.000.000 / hari', 'Rp. 30.000.000 / hari', 'Rp. 40.000.000 / hari', 'Rp. 35.000.000 / hari', 'Rp. 45.000.000 / hari', 'Rp. 38.000.000 / hari'][index]}'
+                        })">
+                            <div class="car-card-inner">
+                                <img src="${img}" class="car-image rounded-xl shadow-xl" alt="Hypercar">
+                            </div>
+                            <div class="price-tag">Rp. ${['25', '30', '40', '35', '45', '38'][index]} Juta/hari</div>
+                        </div>
+                    `).join('')}
+                </div>
+            `,
+            harga: `
+                <h2 class="text-3xl font-bold text-center mb-12 text-blue-300 neon-text">Daftar Harga Sewa Hypercar</h2>
+                
+                <div class="glass-morphism p-4 rounded-xl mb-8">
+                    <p class="text-blue-100">
+                        HyperRideRental menawarkan beragam hypercar premium untuk pengalaman berkendara mewah. Semua harga termasuk asuransi komprehensif dan layanan pelanggan 24/7. Untuk pemesanan jangka panjang, diskon khusus tersedia.
+                    </p>
+                </div>
+                
+                <div class="overflow-x-auto">
+                    <table class="price-table">
+                        <thead>
+                            <tr>
+                                <th>Model Hypercar</th>
+                                <th>Harga Per Hari</th>
+                                <th>Harga 3 Hari</th>
+                                <th>Harga Mingguan</th>
+                                <th>Termasuk Driver</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-blue-100">
+                            <tr>
+                                <td>Lamborghini Aventador</td>
+                                <td>Rp. 25.000.000</td>
+                                <td>Rp. 70.000.000</td>
+                                <td>Rp. 160.000.000</td>
+                                <td>Ya</td>
+                            </tr>
+                            <tr>
+                                <td>Ferrari SF90 Stradale</td>
+                                <td>Rp. 30.000.000</td>
+                                <td>Rp. 85.000.000</td>
+                                <td>Rp. 190.000.000</td>
+                                <td>Ya</td>
+                            </tr>
+                            <tr>
+                                <td>Bugatti Chiron</td>
+                                <td>Rp. 40.000.000</td>
+                                <td>Rp. 115.000.000</td>
+                                <td>Rp. 260.000.000</td>
+                                <td>Ya</td>
+                            </tr>
+                            <tr>
+                                <td>McLaren Senna</td>
+                                <td>Rp. 35.000.000</td>
+                                <td>Rp. 100.000.000</td>
+                                <td>Rp. 230.000.000</td>
+                                <td>Ya</td>
+                            </tr>
+                            <tr>
+                                <td>Koenigsegg Jesko</td>
+                                <td>Rp. 45.000.000</td>
+                                <td>Rp. 130.000.000</td>
+                                <td>Rp. 290.000.000</td>
+                                <td>Ya</td>
+                            </tr>
+                            <tr>
+                                <td>Pagani Huayra</td>
+                                <td>Rp. 38.000.000</td>
+                                <td>Rp. 110.000.000</td>
+                                <td>Rp. 245.000.000</td>
+                                <td>Ya</td>
+                            </tr>
+                            <tr>
+                                <td>Aston Martin Valkyrie</td>
+                                <td>Rp. 42.000.000</td>
+                                <td>Rp. 120.000.000</td>
+                                <td>Rp. 275.000.000</td>
+                                <td>Ya</td>
+                            </tr>
+                            <tr>
+                                <td>Porsche 918 Spyder</td>
+                                <td>Rp. 32.000.000</td>
+                                <td>Rp. 90.000.000</td>
+                                <td>Rp. 200.000.000</td>
+                                <td>Ya</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="mt-12 grid md:grid-cols-2 gap-8">
+                    <div class="glass-morphism p-6 rounded-xl">
+                        <h3 class="text-2xl font-bold text-blue-300 mb-4 neon-text">Paket Spesial</h3>
+                        <ul class="space-y-2 text-blue-100">
+                            <li><strong class="text-blue-300">Paket Akhir Pekan:</strong> Diskon 10% untuk pemesanan Jumat-Minggu</li>
+                            <li><strong class="text-blue-300">Paket Honeymoon:</strong> 2 hypercar selama 2 hari dengan diskon 15%</li>
+                            <li><strong class="text-blue-300">Paket Ulang Tahun:</strong> Tambahan 3 jam gratis dengan dekorasi khusus</li>
+                            <li><strong class="text-blue-300">Paket Korporat:</strong> Diskon 20% untuk perusahaan dengan minimum 3 mobil</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="glass-morphism p-6 rounded-xl">
+                        <h3 class="text-2xl font-bold text-blue-300 mb-4 neon-text">Ketentuan Sewa</h3>
+                        <ul class="space-y-2 text-blue-100">
+                            <li><strong class="text-blue-300">Deposit:</strong> 20% dari harga sewa</li>
+                            <li><strong class="text-blue-300">Dokumen:</strong> KTP, SIM A, kartu kredit, dan dokumen tambahan</li>
+                            <li><strong class="text-blue-300">Batas Jarak:</strong> 200 km/hari (kelebihan Rp 100.000/km)</li>
+                            <li><strong class="text-blue-300">Asuransi:</strong> Termasuk dengan pertanggungan hingga 80%</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="text-center mt-8">
+                    <button onclick="navigateTo('kontak')" class="px-8 py-3 bg-blue-900 hover:bg-blue-800 rounded-xl transition glow-button text-lg">Pesan Sekarang</button>
+                </div>
+            `,
+            profil: `
+                <div class="flex flex-col md:flex-row items-center space-y-8 md:space-y-0 md:space-x-12">
+                    <img src="4 (2).jpg" class="company-logo rounded-full border-4 border-blue-400" alt="Logo Perusahaan">
+                    <div>
+                        <h2 class="text-3xl font-bold mb-6 text-blue-300 neon-text">Profil Perusahaan</h2>
+                        <p class="mb-4 text-blue-100">HyperRideRental didirikan pada tahun 2020 oleh sekelompok penggemar hypercar yang ingin membawa pengalaman berkendara mobil super eksklusif kepada lebih banyak orang.</p>
+                        <p class="mb-4 text-blue-100">Dengan armada yang terdiri dari lebih dari 20 hypercar premium, kami menyediakan layanan rental hypercar terlengkap di Indonesia.</p>
+                        <div class="mt-8 glass-morphism p-4 rounded-lg">
+                            <h3 class="text-2xl font-bold text-blue-300 mb-4">Visi & Misi</h3>
+                            <p><strong class="text-blue-300">Visi:</strong> Menjadi penyedia layanan rental hypercar terbaik di Asia Tenggara.</p>
+                            <p class="mt-2"><strong class="text-blue-300">Misi:</strong> Memberikan pengalaman hypercar premium dengan harga terjangkau dan layanan terbaik.</p>
+                        </div>
+                    </div>
+                </div>
+            `,
+            kontak: `
+                <div class="grid md:grid-cols-2 gap-12">
+                    <div class="glass-morphism p-8 rounded-xl">
+                        <h3 class="text-2xl font-bold text-blue-300 mb-6 neon-text">Informasi Kontak</h3>
+                        <div class="space-y-4 text-blue-100">
+                            <p><strong class="text-blue-300">Alamat:</strong> Jl. Supercar No. 123, Jakarta Selatan</p>
+                            <p><strong class="text-blue-300">Telepon:</strong> +62 812 3456 7890</p>
+                            <p><strong class="text-blue-300">Email:</strong> info@hyperriderental.com</p>
+                            <p><strong class="text-blue-300">Jam Operasional:</strong> 09.00 - 21.00 (Setiap Hari)</p>
+                        </div>
+                    </div>
+                    <div class="glass-morphism p-8 rounded-xl">
+                        <h3 class="text-2xl font-bold text-blue-300 mb-6 neon-text">Formulir Pemesanan</h3>
+                        <form class="space-y-4">
+                            <input type="text" placeholder="Nama Lengkap" class="w-full p-2 rounded bg-gray-800 border border-blue-400 text-white" required>
+                            <input type="email" placeholder="Email" class="w-full p-2 rounded bg-gray-800 border border-blue-400 text-white" required>
+                            <select class="w-full p-2 rounded bg-gray-800 border border-blue-400 text-white" required>
+                                <option value="" disabled selected>Pilih Hypercar</option>
+                                <option>Lamborghini Aventador</option>
+                                <option>Ferrari SF90 Stradale</option>
+                                <option>Bugatti Chiron</option>
+                                <option>McLaren Senna</option>
+                                <option>Koenigsegg Jesko</option>
+                                <option>Pagani Huayra</option>
+                                <option>Aston Martin Valkyrie</option>
+                                <option>Porsche 918 Spyder</option>
+                            </select>
+                            <div class="grid grid-cols-2 gap-4">
+                                <input type="date" class="w-full p-2 rounded bg-gray-800 border border-blue-400 text-white" required>
+                                <input type="number" placeholder="Durasi (hari)" min="1" max="30" class="w-full p-2 rounded bg-gray-800 border border-blue-400 text-white" required>
+                            </div>
+                            <textarea placeholder="Pesan Tambahan" rows="4" class="w-full p-2 rounded bg-gray-800 border border-blue-400 text-white"></textarea>
+                            <button type="submit" class="w-full bg-blue-900 hover:bg-blue-800 p-3 rounded transition glow-button">Kirim Pemesanan</button>
+                        </form>
+                    </div>
+                </div>
+            `
+        };
+
+        function navigateTo(page) {
+            document.getElementById('content').innerHTML = pages[page];
+            updateActiveNav(page);
+        }
+
+       function updateActiveNav(page) {
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('bg-blue-800');
+                btn.classList.add('bg-blue-900');
+                btn.style.boxShadow = '0 0 10px rgba(0, 195, 255, 0.5)';
+            });
+            
+            // Temukan dan aktifkan tombol yang sesuai dengan halaman
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                if (btn.textContent.toLowerCase().includes(page)) {
+                    btn.classList.remove('bg-blue-900');
+                    btn.classList.add('bg-blue-800');
+                    btn.style.boxShadow = '0 0 20px rgba(0, 195, 255, 0.8)';
+                }
+            });
+        }
+
+        function openModalWithDetails(imageSrc, title, details) {
+            const modal = document.getElementById('carModal');
+            const modalImage = document.getElementById('modalImage');
+            const carDetails = document.getElementById('carDetails');
+
+            modalImage.src = imageSrc;
+            modal.classList.remove('hidden');
+
+            carDetails.innerHTML = `
+                <h2 class="text-3xl font-bold text-blue-300 mb-6 neon-text">${title}</h2>
+                <div class="space-y-4 text-blue-100">
+                    <p><strong class="text-blue-300">Mesin:</strong> ${details.engine}</p>
+                    <p><strong class="text-blue-300">Tenaga:</strong> ${details.hp}</p>
+                    <p><strong class="text-blue-300">Akselerasi:</strong> ${details.acceleration}</p>
+                    <p><strong class="text-blue-300">Harga Sewa:</strong> ${details.price}</p>
+                </div>
+                <button onclick="navigateTo('kontak'); closeModal();" class="mt-6 px-4 py-2 bg-blue-900 hover:bg-blue-800 rounded glow-button">Pesan Sekarang</button>
+            `;
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('carModal');
+            modal.classList.add('hidden');
+        }
+
+        // Create neon circles for the background
+        function createNeonCircles() {
+            const container = document.getElementById('neonCirclesContainer');
+            const colors = ['rgba(0, 195, 255, 0.15)', 'rgba(0, 100, 255, 0.15)', 'rgba(50, 0, 255, 0.15)'];
+            
+            for (let i = 0; i < 5; i++) {
+                const circle = document.createElement('div');
+                circle.classList.add('neon-circle');
+                
+                // Random size
+                const size = Math.floor(Math.random() * 300) + 100;
+                circle.style.width = `${size}px`;
+                circle.style.height = `${size}px`;
+                
+                // Random position
+                circle.style.left = `${Math.random() * 100}%`;
+                circle.style.top = `${Math.random() * 100}%`;
+                
+                // Random color
+                circle.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                
+                container.appendChild(circle);
+            }
+        }
+        
+        // Create circuit lines
+        function createCircuits() {
+            const container = document.getElementById('circuitContainer');
+            
+            for (let i = 0; i < 10; i++) {
+                const line = document.createElement('div');
+                line.classList.add('circuit-line');
+                
+                // Random width and position
+                line.style.width = `${Math.random() * 30 + 10}%`;
+                line.style.left = `${Math.random() * 70}%`;
+                line.style.top = `${Math.random() * 100}%`;
+                
+                // Random animation delay
+                line.style.animationDelay = `${Math.random() * 10}s`;
+                
+                container.appendChild(line);
+            }
+        }
+        
+        // Create digital particles
+        function createDigitalParticles() {
+            const container = document.getElementById('digitalParticlesContainer');
+            
+            for (let i = 0; i < 50; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('digital-particle');
+                
+                // Random position
+                particle.style.left = `${Math.random() * 100}%`;
+                particle.style.bottom = '0';
+                
+                // Random animation delay
+                particle.style.animationDelay = `${Math.random() * 8}s`;
+                
+                container.appendChild(particle);
+            }
+        }
+        
+        // Create HUD elements
+        function createHudElements() {
+            const container = document.getElementById('hudElementsContainer');
+            const hudTexts = [
+                'SYSTEM ONLINE', 'HYPERCAR DATABASE', 'SCANNING...', 
+                'PREMIUM ACCESS', 'VELOCITY METRICS', 'POWER ANALYSIS'
+            ];
+            
+            for (let i = 0; i < 6; i++) {
+                const hud = document.createElement('div');
+                hud.classList.add('hud-element');
+                
+                // Random position
+                hud.style.left = `${Math.random() * 80 + 10}%`;
+                hud.style.top = `${Math.random() * 80 + 10}%`;
+                
+                // Random delay
+                hud.style.animationDelay = `${i * 0.5}s`;
+                
+                // Add text
+                hud.innerHTML = hudTexts[i];
+                
+                container.appendChild(hud);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            navigateTo('home');
+            createNeonCircles();
+            createCircuits();
+            createDigitalParticles();
+            createHudElements();
+        });
+    </script>
+</body>
+</html>
